@@ -71,7 +71,9 @@
 
             if ($_POST["email"] && $_POST["password"]) {
                 $sql = "USE {$env["DATABASE"]}";
-                $conn->query($sql);               
+                $conn->query($sql);
+                # faille de sécurité retirée et ajout de la requête préparée
+                # pour éviter les injections SQL               
                 $stmt = $conn->prepare("SELECT * FROM user WHERE email=? AND password=?");
                 $stmt->bind_param("ss", $_POST["email"], $_POST["password"]);
                 $stmt->execute();
